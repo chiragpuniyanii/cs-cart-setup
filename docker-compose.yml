@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: cscart-web
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - cscart-net
+
+  db:
+    image: mysql:5.7
+    container_name: cscart-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: cscart_db
+      MYSQL_USER: cscart_user
+      MYSQL_PASSWORD: chirag
+      MYSQL_ROOT_PASSWORD: chirag
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - cscart-net
+
+volumes:
+  db_data:
+
+networks:
+  cscart-net:
+
