@@ -39,37 +39,31 @@ Navigate to the html directory:
 cd /var/www/html/
 Unzip the CS-Cart Multi-Vendor zip file:
 
-bash
-Copy code
 sudo unzip /home/ubuntu/multivendor_v4.18.2.SP1.zip
 ### Step 5: Move Files to the CS-Cart Folder ###
 Create a folder for CS-Cart:
 
-bash
-Copy code
+
 sudo mkdir cscart
 Move the extracted files to the cscart folder:
 
-bash
-Copy code
+
 sudo mv multivendor_v4.18.2.SP1/* cscart/
 ### Step 6: Set Permissions for CS-Cart Files ###
 Set the appropriate file permissions and ownership for the cscart folder:
 
-bash
-Copy code
+
 sudo chown -R www-data:www-data /var/www/html/cscart
 sudo chmod -R 755 /var/www/html/cscart
 ### Step 7: Configure Apache for CS-Cart ###
 Create a configuration file for CS-Cart:
 
-bash
-Copy code
+
 sudo vi /etc/apache2/sites-available/cscart.conf
 Add the following configuration:
 
 apache
-Copy code
+
 <VirtualHost *:80>
     ServerAdmin admin@yourdomain.com
     DocumentRoot /var/www/html/cscart
@@ -87,47 +81,43 @@ Copy code
 
 ### Step 8: Enable Site, Disable Default Site, and Restart Apache ###
 
-Enable the CS-Cart site:
+**Enable the CS-Cart site:**
 
-bash
-Copy code
-sudo a2ensite cscart.conf
-Disable the default Apache site:
 
-bash
-Copy code
-sudo a2dissite 000-default.conf
-Restart Apache to apply the changes:
-
-bash
-Copy code
-sudo systemctl restart apache2
+   sudo a2ensite cscart.conf
+   Disable the default Apache site:
+   
+   sudo a2dissite 000-default.conf
+   Restart Apache to apply the changes:   
+   
+   sudo systemctl restart apache2
+   
 ### Step 9: Install MySQL and Create Database ###
-Install MySQL Server:
+**Install MySQL Server:**
 
-bash
-Copy code
-sudo apt install mysql-server -y
-Log in to MySQL and configure it:
 
-bash
-Copy code
-sudo mysql
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
-CREATE DATABASE cscart_db;
-CREATE USER 'cscart_user'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON cscart_db.* TO 'cscart_user'@'localhost';
-FLUSH PRIVILEGES;
-EXIT;
+   sudo apt install mysql-server -y
+##Log in to MySQL and configure it:
+
+   sudo mysql
+   ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
+   CREATE DATABASE cscart_db;
+   CREATE USER 'cscart_user'@'localhost' IDENTIFIED BY 'your_password';
+   GRANT ALL PRIVILEGES ON cscart_db.* TO 'cscart_user'@'localhost';
+   FLUSH PRIVILEGES;
+   EXIT;
+
 ### Step 10: Install PHP SOAP Extension ###
-Install the SOAP extension for PHP:
 
-bash
-Copy code
-sudo apt install php8.2-soap -y
-sudo systemctl restart apache2
+**Install the SOAP extension for PHP:**
+
+
+   sudo apt install php8.2-soap -y
+   sudo systemctl restart apache2
+
 ### Step 11: Access CS-Cart ###
-Open your browser and navigate to your EC2 instance's public IP address (e.g., http://your_ec2_public_ip/). You should see the CS-Cart installation page.
+
+**Open your browser and navigate to your EC2 instance's public IP address (e.g., http://your_ec2_public_ip/). You should see the CS-Cart installation page.**
 
 Follow the installation steps on the web interface:
 
