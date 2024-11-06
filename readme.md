@@ -21,76 +21,59 @@ Before starting, ensure you have the following:
    ```bash
    scp -i "C:\path\to\your\secret_key.pem" "C:\path\to\your\multivendor_v4.18.2.SP1.zip" ubuntu@<your-ec2-public-ip>:/home/ubuntu/
 
+### Step 3: Install Dependencies ###
+SSH into your EC2 instance and run the following commands to install Apache, PHP, and necessary PHP extensions.
 
-Step 3: SSH into EC2 Instance
-SSH into your EC2 instance:
-bash
-Copy code
-ssh -i "path/to/your/secret_key.pem" ubuntu@<your-ec2-public-ip>
-Step 4: Install Apache, PHP, and Required Extensions
-Update the package list and install Apache:
-
-bash
-Copy code
 sudo apt update
 sudo apt install apache2 -y
-Install PHP and the necessary PHP extensions for CS-Cart:
+sudo apt install php libapache2-mod-php php-mysql php-curl php-zip php-gd php-mbstring php-xml php-cli php-intl unzip -y
+### Step 4: Unzip the CS-Cart Zip File ###
 
-bash
-Copy code
-sudo apt install php libapache2-mod-php php-mysql php-curl php-zip php-gd php-mbstring php-xml php-cli php-intl -y
-Step 5: Unzip CS-Cart Files
-Install unzip utility (if not installed):
+Install unzip (if not already installed):
 
-bash
-Copy code
+
 sudo apt install unzip -y
-Navigate to the Apache web directory:
+Navigate to the html directory:
 
-bash
-Copy code
+
 cd /var/www/html/
-Unzip the CS-Cart zip file:
+Unzip the CS-Cart Multi-Vendor zip file:
 
 bash
 Copy code
 sudo unzip /home/ubuntu/multivendor_v4.18.2.SP1.zip
-Step 6: Organize CS-Cart Files
-Create a new directory for CS-Cart:
+### Step 5: Move Files to the CS-Cart Folder ###
+Create a folder for CS-Cart:
 
 bash
 Copy code
 sudo mkdir cscart
-Move the unzipped CS-Cart files to the newly created folder:
+Move the extracted files to the cscart folder:
 
 bash
 Copy code
-sudo mv multivendor_v4.18.2.SP1 cscart
-Step 7: Set Permissions for CS-Cart Files
-Set the appropriate ownership for the CS-Cart folder:
+sudo mv multivendor_v4.18.2.SP1/* cscart/
+### Step 6: Set Permissions for CS-Cart Files ###
+Set the appropriate file permissions and ownership for the cscart folder:
 
 bash
 Copy code
 sudo chown -R www-data:www-data /var/www/html/cscart
-Set permissions for the CS-Cart files:
-
-bash
-Copy code
 sudo chmod -R 755 /var/www/html/cscart
-Step 8: Configure Apache for CS-Cart
-Create a new Apache virtual host configuration file:
+### Step 7: Configure Apache for CS-Cart ###
+Create a configuration file for CS-Cart:
 
 bash
 Copy code
 sudo vi /etc/apache2/sites-available/cscart.conf
-Add the following configuration to the cscart.conf file:
+Add the following configuration:
 
 apache
 Copy code
 <VirtualHost *:80>
     ServerAdmin admin@yourdomain.com
     DocumentRoot /var/www/html/cscart
-    ServerName <your-server-ip-or-domain>
+    ServerName http://your_ec2_public_ip/
 
     <Directory /var/www/html/cscart>
         Options Indexes FollowSymLinks
@@ -101,70 +84,61 @@ Copy code
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-Replace <your-server-ip-or-domain> with your EC2 server's public IP or your domain name.
 
-Step 9: Enable Apache Site and Restart Apache
-Enable the new site and disable the default site:
+### Step 8: Enable Site, Disable Default Site, and Restart Apache ###
+
+Enable the CS-Cart site:
 
 bash
 Copy code
 sudo a2ensite cscart.conf
+Disable the default Apache site:
+
+bash
+Copy code
 sudo a2dissite 000-default.conf
 Restart Apache to apply the changes:
 
 bash
 Copy code
 sudo systemctl restart apache2
-Step 10: Install MySQL and Configure Database
-Install MySQL server:
+### Step 9: Install MySQL and Create Database ###
+Install MySQL Server:
 
 bash
 Copy code
 sudo apt install mysql-server -y
-Access MySQL shell:
+Log in to MySQL and configure it:
 
 bash
 Copy code
 sudo mysql
-Create a database and user for CS-Cart:
-
-sql
-Copy code
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
 CREATE DATABASE cscart_db;
 CREATE USER 'cscart_user'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON cscart_db.* TO 'cscart_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
-Replace your_password with a secure password.
-
-Step 11: Install SOAP Extension for PHP
-Install PHP SOAP extension:
+### Step 10: Install PHP SOAP Extension ###
+Install the SOAP extension for PHP:
 
 bash
 Copy code
 sudo apt install php8.2-soap -y
-Restart Apache to enable the SOAP extension:
-
-bash
-Copy code
 sudo systemctl restart apache2
-Step 12: Run the CS-Cart Setup
-Navigate to the CS-Cart installation URL in your web browser:
-If you are using the public IP of your EC2 instance, access it like http://<your-ec2-public-ip>/
-Follow the CS-Cart installation wizard to complete the setup.
-Conclusion
-You have now successfully installed and configured CS-Cart on your EC2 instance running Ubuntu. Make sure to follow the installation wizard in the web browser to finish setting up the store.
+### Step 11: Access CS-Cart ###
+Open your browser and navigate to your EC2 instance's public IP address (e.g., http://your_ec2_public_ip/). You should see the CS-Cart installation page.
 
-yaml
-Copy code
+Follow the installation steps on the web interface:
 
----
+Database Name: cscart_db
+Database User: cscart_user
+Password: your_password
+Complete the installation by following the web-based wizard.
 
-### How to Use the `README.md`:
-1. Create a `README.md` file in your project folder:
-   ```bash
-   touch README.md
-Open it and paste the content from above. You can edit it with any text editor (e.g., vi, nano, or use any GUI editor on your local machine).
+### Step 12: Final Setup for Multi-Vendor ###
+After the installation is complete:
 
-Follow the GitHub steps to push your project with this README.md file.
-
+Log in to the Admin Panel at http://your_ec2_public_ip/admin.php.
+Configure your store settings, payment methods, shipping options, and other store configurations.
+To enable the Multi-Vendor functionality, configure the necessary settings from the admin panel.
