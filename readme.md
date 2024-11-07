@@ -22,11 +22,12 @@ Before starting, ensure you have the following:
    scp -i "C:\path\to\your\secret_key.pem" "C:\path\to\your\multivendor_v4.18.2.SP1.zip" ubuntu@<your-ec2-public-ip>:/home/ubuntu/
 
 ### Step 3: Install Dependencies ###
-SSH into your EC2 instance and run the following commands to install Apache, PHP, and necessary PHP extensions.
+**SSH into your EC2 instance and run the following commands to install Apache, PHP, and necessary PHP extensions.**
 
-sudo apt update
-sudo apt install apache2 -y
-sudo apt install php libapache2-mod-php php-mysql php-curl php-zip php-gd php-mbstring php-xml php-cli php-intl unzip -y
+   sudo apt update
+   sudo apt install apache2 -y
+   sudo apt install php libapache2-mod-php php-mysql php-curl php-zip php-gd php-mbstring php-xml php-cli php-intl unzip -y
+   
 ### Step 4: Unzip the CS-Cart Zip File ###
 
 Install unzip (if not already installed):
