@@ -19,7 +19,7 @@ Before starting, ensure you have the following:
 1. Open **PowerShell** or **Git Bash** on your Windows machine.
 2. Use the following command to transfer the zip file to your EC2 instance:
    ```bash
-   scp -i "C:\path\to\your\secret_key.pem" "C:\path\to\your\multivendor_v4.18.2.SP1.zip" ubuntu@<your-ec2-public-ip>:/home/ubuntu/
+   scp -i "C:\Users\AS\Downloads\secret_key.pem" "C:\Users\AS\Downloads\multivendor_v4.18.2.SP1.zip" ubuntu@13.229.81.83:/home/ubuntu/
 
 ### Step 3: Install Dependencies ###
    **SSH into your EC2 instance and run the following commands to install Apache, PHP, and necessary PHP extensions.**
