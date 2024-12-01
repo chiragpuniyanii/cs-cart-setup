@@ -85,30 +85,34 @@ Before starting, ensure you have the following:
 
    **Enable the CS-Cart site:**
 
-
-      sudo a2ensite cscart.conf
-      Disable the default Apache site:
-      
-      sudo a2dissite 000-default.conf
-      Restart Apache to apply the changes:   
-   
-      sudo systemctl restart apache2
-   
+```
+sudo a2ensite cscart.conf
+```
+Disable the default Apache site:
+   ```   
+sudo a2dissite 000-default.conf
+```
+ Restart Apache to apply the changes:   
+ ```  
+sudo systemctl restart apache2
+   ```
 ### Step 9: Install MySQL and Create Database ###
    **Install MySQL Server:**
 
 
       sudo apt install mysql-server -y
    ##Log in to MySQL and configure it:
-
+```bash
       sudo mysql
-      ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
+```
+```sql
+      ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'chirag';
       CREATE DATABASE cscart_db;
       CREATE USER 'cscart_user'@'localhost' IDENTIFIED BY 'your_password';
       GRANT ALL PRIVILEGES ON cscart_db.* TO 'cscart_user'@'localhost';
       FLUSH PRIVILEGES;
       EXIT;
-
+```
 ### Step 10: Install PHP SOAP Extension ###
 
    **Install the SOAP extension for PHP:**
@@ -125,7 +129,7 @@ Before starting, ensure you have the following:
 
       Database Name: cscart_db
       Database User: cscart_user
-      Password: your_password
+      Password: chirag
       Complete the installation by following the web-based wizard.
 
 ### Step 12: Final Setup for Multi-Vendor ###
